@@ -1,0 +1,97 @@
+/* Latar Belakang Gambar */
+.bg-image {
+    background-image: url('/images/login-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  /* Overlay Gelap untuk Gambar Background */
+  .bg-image::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Overlay gelap */
+    z-index: -1;
+  }
+  
+  /* Global Styles */
+  body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+  }
+  
+  /* Navbar Styling */
+  .navbar {
+    background: linear-gradient(135deg, #007bff, #4a90e2); /* Gradasi warna */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .navbar .navbar-brand {
+    font-size: 1.5rem;
+    color: #fff;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar .navbar-brand:hover {
+    color: #ffd700; /* Warna emas saat hover */
+  }
+  
+  .navbar .nav-link {
+    color: #e0e0e0;
+    margin-right: 15px;
+    font-weight: 500;
+    transition: color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar .nav-link i {
+    margin-right: 5px;
+  }
+  
+  .navbar .nav-link:hover {
+    color: #fff; /* Putih saat hover */
+    transform: translateY(-2px); /* Efek melayang */
+  }
+  
+  .navbar .nav-link.active {
+    color: #ffd700; /* Warna emas untuk item aktif */
+  }
+  
+  /* Warna gradien untuk tombol */
+  .btn-primary-gradient {
+    background: linear-gradient(135deg, #007bff, #4a90e2); 
+    color: #fff; 
+    border: none; 
+    transition: background 0.3s ease; 
+  }
+  
+  
+  
+  /* Footer Styling */
+  footer {
+    background-color: #343a40;
+    color: #f8f9fa;
+    text-align: center;
+  }
+  
+  footer p {
+    margin: 0;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .navbar {
+      border-radius: 0; /* Hilangkan border di mobile untuk tampilan penuh */
+    }
+  }
+  

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voucher</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fontawesome.com/v6.0/icons?d=gallery&p=2" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -35,7 +34,7 @@
         .container a {
             font-weight: 600;
             text-decoration: none;
-            color: #1d4ed8;
+            color: #2563eb;
             display: flex;
             align-items: center;
             

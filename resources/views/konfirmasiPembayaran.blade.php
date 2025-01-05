@@ -120,6 +120,10 @@
             margin-top: 30px;
         }
 
+        
+
+        
+
         .btn {
             padding: 15px 30px;
             border: none;
@@ -166,6 +170,14 @@
         .btn-cancel {
             background: linear-gradient(135deg, #b11e1e, #dc2626);
             color: white;
+            align-items: center;
+            padding: 15px 41%;
+            display: flex;
+            transition: all 0.3s ease;
+            justify-content: center;
+            gap: 8px;
+
+
         }
 
         .btn-cancel:hover {
@@ -270,11 +282,11 @@
 
                     <div class="info-row">
                         <div class="detail-icon">
-                            <i class="fas fa-calendar"></i>
+                            <i class="fa-solid fa-car"></i>
                         </div>
                         <div class="info-content">
-                            <div class="info-label">Tanggal Keberangkatan</div>
-                            <div class="info-value">{{ $pemesanan->tanggal }}</div>
+                            <div class="info-label">Kursi</div>
+                            <div class="info-value">{{ $pemesanan->kursi_dipilih }}</div>
                         </div>
                     </div>
 
@@ -325,13 +337,16 @@
                         <i class="fas fa-edit"></i>
                         Edit Pesanan
                     </a>
-                    <form action="{{ route('pemesanan.cancel', $pemesanan->id) }}" method="POST">
-                        @csrf
-                        <button class="btn btn-cancel" >
-                            <i class="fa-solid fa-xmark"></i>
-                            Cancel
-                        </button>
-                    </form>
+                    <div class="">
+                        <form action="{{ route('pemesanan.cancel', $pemesanan->id) }}" method="POST">
+                            @csrf
+                            <button class="btn btn-cancel" >
+                                <i class="fa-solid fa-xmark"></i>
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+                    
                     
                 </div>
             </div>

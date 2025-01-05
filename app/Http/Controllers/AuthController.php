@@ -56,6 +56,8 @@ class AuthController extends Controller
             }
         
             return redirect()->route('home'); // Redirect ke dashboard user
+        } else{
+            return back()->withErrors(['email' => 'Email or password is wrong.'])->withInput();
         }
     }
             

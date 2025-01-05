@@ -90,12 +90,17 @@
             text-align: center;
         }
 
-        .status-paid {
+        .pending {
+            background: #fde68a;
+            color: #77591d;
+        }
+
+        .paid {
             background: #dcfce7;
             color: #166534;
         }
 
-        .status-unpaid {
+        .cancelled {
             background: #fee2e2;
             color: #991b1b;
         }
@@ -121,10 +126,12 @@
                 <tr>
                     <th>No.</th>
                     <th>Nama Pemesan</th>
+                    <th>No. Hp</th>
                     <th>Tujuan Wisata</th>
                     <th>Total Pembayaran</th>
                     <th>Status Pembayaran</th>
-                    <th>Tanggal Pesanan</th>
+                    <th>Tanggal Keberangkatan</th>
+                    <th>Tanggal Pemesanan</th>
                 </tr>
             </thead>
             <tbody>
@@ -132,14 +139,22 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $order->nama_lengkap }}</td>
+                    <td>{{ $order->nomor_hp }}</td>
                     <td>{{ $order->destinasi->tujuan }}</td>
                     <td class="order-amount">Rp {{ number_format($order->total_pembayaran, 0, ',', '.') }}</td>
                     <td>
-                        <span class="status-badge {{ $order->status_pembayaran == 'paid' ? 'status-paid' : 'status-unpaid' }}">
-                            {{ $order->status_pembayaran == 'paid' ? 'Lunas' : 'Belum Lunas' }}
+                        <span class="status-badge {{ 
+                            $order->status_pembayaran == 'paid' ? 'paid' : 
+                            ($order->status_pembayaran == 'pending' ? 'pending' : 'cancelled') 
+                        }}">
+                            {{ 
+                                $order->status_pembayaran == 'paid' ? 'Paid' : 
+                                ($order->status_pembayaran == 'pending' ? 'Pending' : 'Cancelled') 
+                            }}
                         </span>
                     </td>
-                    <td>{{ \Carbon\Carbon::parse($order->tanggal_pesanan)->format('d M Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($order->tanggal)->format('d M Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y') }}</td>
                 </tr>
                 @endforeach
             </tbody>

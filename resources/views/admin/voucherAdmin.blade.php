@@ -24,22 +24,27 @@
             margin: 0 auto;
         }
 
-        .action{
-                margin-bottom: 20px;
-                font-size: 16px;
-                display: flex;
-                text-decoration-style: none;
-            }
+        .action a {
+            font-weight: 600;
+            text-decoration: none;
+            color: #1d4ed8;
+            display: flex;
+            align-items: center;
+            
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+           
+        }
 
-            .container a{
-                font-weight: bold;
-                text-decoration: none;
-                color: #333;
-            }
+        .action a:hover {
+           
+            transform: translateX(-2px);
+        }
 
-            .action i{
-                margin-right: 10px;
-            }
+        .action i {
+            margin-right: 10px;
+        }
 
         .header {
             background: linear-gradient(135deg, #1e3c72, #2a5298);

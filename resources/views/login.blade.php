@@ -192,6 +192,41 @@
             list-style: none;
         }
 
+        /* Container */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        
+
+        /* Rotating Square */
+        .rotating-square {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #3498db, #362ecc);
+            animation: rotate-square 2s infinite;
+        }
+
+        
+
+        /* Animations */
+        @keyframes rotate-square {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        
+
         
         
     </style>
@@ -211,6 +246,9 @@
                 </ul>
             </div>
         @endif
+        <div id="loadingAnimation" class="loading-overlay">
+            <div class="rotating-square"></div>
+          </div>
         <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="form-group">
@@ -230,14 +268,38 @@
                     <input type="checkbox">
                     <span>Remember me</span>
                 </label>
-                <a href="{{ route('password.request') }}" class="forgot-password">Lupa kata sandi</a>
+            
             </div>
+            
 
-            <button type="submit" class="login-button">Login</button>
+            <button id="loadbtn" type="submit" class="login-button">Login</button>
             <div class="login-footer">
                 <p>Belum punya akun? <a href="{{ route('register') }}" class="signup-link">Daftar</a></p>
             </div>
         </form>
     </div>
-</body>
-</html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Sembunyikan animasi loading saat halaman dimuat
+        const loadingAnimation = document.getElementById('loadingAnimation');
+        if (loadingAnimation) {
+            loadingAnimation.style.display = 'none';
+        }
+    });
+
+    document.getElementById('loadbtn').addEventListener('click', function (event) {
+        event.preventDefault(); // Mencegah form langsung submit
+
+        // Tampilkan animasi loading
+        const loadingAnimation = document.getElementById('loadingAnimation');
+        loadingAnimation.style.display = 'flex';
+
+        // Kirim form setelah delay (opsional)
+        setTimeout(() => {
+            document.querySelector('form').submit();
+        }, 1400); // Ganti 2000 dengan durasi loading dalam milidetik
+    });
+    </script>
+    </body>
+    </html>

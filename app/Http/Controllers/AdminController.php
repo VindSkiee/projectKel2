@@ -9,17 +9,17 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view('homeAdmin'); // Halaman khusus admin
+        return view('admin.homeAdmin'); // Halaman khusus admin
     }
 
     public function pesanan()
     {
         // Ambil semua pesanan dari semua user
         $orders = Pemesanan::with('destinasi')  // Relasi ke destinasi
-            ->select('id', 'nama_lengkap', 'user_id', 'destinasi_id', 'total_pembayaran', 'status_pembayaran', 'tanggal')
+            ->select('id', 'nomor_hp', 'nama_lengkap', 'user_id', 'destinasi_id', 'total_pembayaran', 'status_pembayaran', 'tanggal', 'created_at')
             ->get();
 
-        return view('daftarPesananAdmin', compact('orders'));
+        return view('admin.daftarPesananAdmin', compact('orders'));
     }
 
     public function edit()
@@ -29,15 +29,15 @@ class AdminController extends Controller
         $pemesanan = Pemesanan::all();
 
         // Tampilkan halaman dengan data destinasi dan pemesanan
-        return view('destinasiAdmin', compact('destinasi', 'pemesanan'));
+        return view('admin.destinasiAdmin', compact('destinasi', 'pemesanan'));
     }
 
     // Fungsi untuk mengupdate destinasi dan pemesanan
     public function update(Request $request)
     {
         $request->validate([
-            'destinasi_id' => 'required|exists:destinasi,id',
-            'harga' => 'required|numeric|min:0', // Pastikan harga adalah angka yang valid
+            'destinasi_id' => 'required|exists:destinasiwisata,id',
+            'harga' => 'required|string', // Pastikan harga adalah angka yang valid
         ]);
     
         // Temukan destinasi berdasarkan ID yang dikirimkan

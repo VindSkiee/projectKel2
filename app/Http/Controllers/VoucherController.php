@@ -5,13 +5,15 @@ use App\Models\userVoucher;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 
 class VoucherController extends Controller
 {
     public function voucher()
     {
         $voucher = Voucher::all();
-        return view('voucherAdmin', compact('voucher'));
+        return view('admin.voucherAdmin', compact('voucher'));
     }
 
     public function voucherUser()
@@ -61,30 +63,48 @@ class VoucherController extends Controller
 
     public function claimVoucher(Request $request)
     {
-        $request->validate(['kode_voucher' => 'required']);
+        try {
+            $request->validate(['kode_voucher' => 'required']);
 
-        $voucher = Voucher::where('kode', $request->kode_voucher)
-            ->whereDate('tanggal_berakhir', '>=', now()) // Cek hanya tanggal berakhir
-            ->first();
+            $voucher = Voucher::where('kode', $request->kode_voucher)
+                ->whereDate('tanggal_berakhir', '>=', now())
+                ->first();
 
-        if (!$voucher) {
-            return back()->with('error', 'Kode voucher tidak valid atau sudah tidak tersedia.');
+            if (!$voucher) {
+                return back()->with('error', 'Kode voucher tidak valid atau sudah tidak tersedia.');
+            }
+
+            $alreadyClaimed = UserVoucher::where('user_id', Auth::id())
+                ->where('voucher_id', $voucher->id)
+                ->exists();
+
+            if ($alreadyClaimed) {
+                return back()->with('error', 'Anda sudah meng-claim voucher ini.');
+            }
+
+            $userVoucher = UserVoucher::create([
+                'user_id' => Auth::id(),
+                'voucher_id' => $voucher->id,
+            ]);
+
+            if (!$userVoucher) {
+                Log::error('Failed to save voucher claim', [
+                    'user_id' => Auth::id(),
+                    'voucher_id' => $voucher->id,
+                    'timestamp' => now()
+                ]);
+                return back()->with('error', 'Gagal menyimpan voucher. Silakan coba lagi.');
+            }
+
+            return back()->with('success', 'Voucher berhasil di-claim!');
+        } catch (\Exception $e) {
+            Log::error('Voucher claim error: ' . $e->getMessage(), [
+                'user_id' => Auth::id(),
+                'voucher_code' => $request->kode_voucher,
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->with('error', 'Terjadi kesalahan. Silakan coba lagi.');
         }
-
-        $alreadyClaimed = UserVoucher::where('user_id', Auth::id())
-            ->where('voucher_id', $voucher->id)
-            ->exists();
-
-        if ($alreadyClaimed) {
-            return back()->with('error', 'Anda sudah meng-claim voucher ini.');
-        }
-
-        UserVoucher::create([
-            'user_id' => Auth::id(),
-            'voucher_id' => $voucher->id,
-        ]);
-
-        return back()->with('success', 'Voucher berhasil di-claim!');
     }
 
     public function clearSession()

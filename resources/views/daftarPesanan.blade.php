@@ -230,7 +230,7 @@
                 </form>
                     
                 @elseif ($pemesanan->status_pembayaran == 'paid')
-                    <a href="" class="btn btn-print">
+                    <a href="{{ route('cetak.tiket', $pemesanan->id) }}" class="btn btn-print" target="_blank">
                         <i class="fas fa-print"></i>
                         Cetak Tiket
                     </a>

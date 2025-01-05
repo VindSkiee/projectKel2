@@ -54,6 +54,11 @@
             gap: 10px;
         }
 
+        .menu-item a {
+            text-decoration: none;
+            color: var(--white);
+        }
+
         .menu-item:hover {
             background: var(--secondary-blue);
         }
@@ -147,7 +152,7 @@
             }
 
             .logo {
-                font-size: 20px;
+                display: none;
             }
 
             .menu-item span {
@@ -158,22 +163,63 @@
                 margin-left: 70px;
             }
         }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .rotating-square {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #3498db, #2e33cc);
+            animation: rotate-square 2s infinite;
+        }
+
+        /* Animations */
+        @keyframes rotate-square {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+
     </style>
 </head>
 <body>
+    <div id="loadingAnimation" class="loading-overlay">
+        <div class="rotating-square"></div>
+      </div>
     <div class="sidebar">
         <div class="logo">Admin</div>
         <div class="menu-item">
-            <i class="fas fa-shopping-cart"></i>
+            <a href="{{ route('admin.pesanan') }}">
+                <i class="fas fa-shopping-cart"></i>
             <span>Pesanan User</span>
+            </a>
+            
         </div>
         <div class="menu-item">
-            <i class="fas fa-ticket"></i>
-            <span>Voucher</span>
+            <a href="{{ route('voucher.admin') }}">
+                <i class="fas fa-ticket"></i>
+                <span>Voucher</span>
+            </a>
+            
         </div>
         <div class="menu-item">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>Destinasi</span>
+            <a href="{{ route('admin.edit.destinasi') }}">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Destinasi</span>
+            </a>
+            
         </div>
         <div class="menu-item">
             <form action="{{ route('logout') }}" method="POST" class="d-inline">
@@ -229,5 +275,46 @@
             
         </div>
     </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const loadingAnimation = document.getElementById('loadingAnimation');
+
+    // Sembunyikan animasi loading saat halaman dimuat (termasuk saat "back" atau "forward")
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+            // Halaman dimuat dari cache
+            loadingAnimation.style.display = 'none';
+        }
+    });
+
+    // Sembunyikan animasi loading ketika halaman selesai dimuat
+    loadingAnimation.style.display = 'none';
+
+    // Tambahkan event listener ke semua tautan dan tombol
+    document.querySelectorAll('a, button').forEach((element) => {
+        element.addEventListener('click', function (event) {
+            const href = this.getAttribute('href');
+
+            // Tampilkan animasi hanya jika tautan valid
+            if (href && href !== '#' && !href.startsWith('javascript')) {
+                event.preventDefault(); // Hindari langsung navigasi
+                loadingAnimation.style.display = 'flex';
+
+                // Redirect ke halaman tujuan setelah animasi
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 1400);
+            }
+        });
+    });
+
+    // Tambahkan event listener ke form untuk menampilkan animasi saat submit
+    document.querySelectorAll('form').forEach((form) => {
+        form.addEventListener('submit', function () {
+            loadingAnimation.style.display = 'flex';
+        });
+    });
+});
+</script>
 </body>
 </html>

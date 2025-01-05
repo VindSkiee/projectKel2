@@ -95,7 +95,7 @@ use App\Http\Controllers\PemesananController;
 
 Route::get('/home/{id}', [PemesananController::class, 'home'])->name('pemesanan.home');
 
-
+Route::get('/api/check-availability/{destinasiId}/{date}/{time}', [PemesananController::class, 'checkAvailability']);
 
 Route::get('/pemesanan/{id}', [PemesananController::class, 'showPemesanan'])->name('pemesanan.show');
 
@@ -110,6 +110,8 @@ Route::get('/pemesanan/sukses', [PemesananController::class, 'success'])->name('
 Route::get('/pemesanan/{id}/edit', [PemesananController::class, 'edit'])->name('pemesanan.edit');
 
 Route::put('/pemesanan/{id}', [PemesananController::class, 'update'])->name('pemesanan.update');
+
+Route::get('/cetak-tiket/{id}', [PemesananController::class, 'cetakTiket'])->name('cetak.tiket');
 
 // DAFTAR PESANAN
 

@@ -21,7 +21,8 @@ class Pemesanan extends Model
         'total_pembayaran',
         'status_pembayaran',
         'tanggal',
-        'jam'
+        'jam',
+        'created_at',
     ];
 
     // Relasi ke tabel destinasi

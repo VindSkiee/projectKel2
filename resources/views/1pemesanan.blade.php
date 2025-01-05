@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{{ asset('css/pemesanan.css') }}">
 
 <div class="container-pemesanan">
+    
     <!-- Destination -->
     <div class="card my-5">
         <h1>{{ $destinasi->namawisata }}</h1>
@@ -34,111 +35,92 @@
         </div>
     </div>
     
-    <form action="{{ route('pemesanan.update', $pemesanan->id) }}" method="POST" id="bookingForm">
+    <form action="{{ route('pemesanan.store') }}" method="POST">
         @csrf
-        @method('PUT')
         <input type="hidden" name="destinasi_id" value="{{ $destinasi->id }}">
         <input type="hidden" name="jenis_kendaraan" id="vehicleTypeInput" value="bus">
         <input type="hidden" name="kursi_dipilih" id="selectedSeatsInput">
         <input type="hidden" name="total_pembayaran" id="totalPembayaranInput">
-
-        <!-- Personal Information Section - Moved to top -->
+        <!-- Vehicle Selection -->
         <div class="card">
-            <h2>Informasi Pribadi & Jadwal</h2>
+            
+            <h2>Pilih Kendaraan</h2>
+            <div class="vehicle-options">
+                <button name="bus" class="vehicle-btn active" data-vehicle="bus" data-seats="45">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="6" width="18" height="12" rx="2"/>
+                        <circle cx="7" cy="18" r="2"/>
+                        <circle cx="17" cy="18" r="2"/>
+                    </svg>
+                    <div class="vehicle-info">
+                        <span class="vehicle-name">Bus</span>
+                        <span class="vehicle-seats">45 Kursi</span>
+                    </div>
+                </button>
+                <button name="minibus" class="vehicle-btn" data-vehicle="minibus" data-seats="15">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="6" width="18" height="12" rx="2"/>
+                        <circle cx="7" cy="18" r="2"/>
+                        <circle cx="17" cy="18" r="2"/>
+                    </svg>
+                    <div class="vehicle-info">
+                        <span class="vehicle-name">Mini Bus</span>
+                        <span class="vehicle-seats">15 Kursi</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Seat Selection -->
+        <div class="card">
+            <h2>Pilih Kursi</h2>
+            <div class="seats-container">
+                <div id="seatsGrid" class="bus-seats"></div>
+            </div>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="card">
+            <h2>Informasi Pribadi</h2>
             <div class="form-container">
                 <div class="form-group">
                     <label for="fullName">Nama Lengkap</label>
-                    <input type="text" id="fullName" name="nama_lengkap" value="{{ old('nama_lengkap', $pemesanan->nama_lengkap) }}" class="form-input" required>
+                    <input type="text" id="fullName" name="nama_lengkap" class="form-input" placeholder="Masukkan nama lengkap" required>
                 </div>
                 <div class="form-group">
                     <label for="phoneNumber">Nomor HP</label>
-                    <input type="tel" id="phoneNumber" name="nomor_hp" value="{{ old('nomor_hp', $pemesanan->nomor_hp) }}" class="form-input" required>
+                    <input type="tel" id="phoneNumber" name="nomor_hp" class="form-input" placeholder="Contoh: 08123456789" required>
                 </div>
                 <div class="form-group">
-                    <label for="date">Tanggal Keberangkatan</label>
-                    <input type="date" id="date" name="tanggal" value="{{ old('tanggal', $pemesanan->tanggal) }}" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="time">Jam Keberangkatan</label>
-                    <select id="time" name="jam" class="form-input" required>
-                        <option value="">Pilih jam keberangkatan</option>
-                        <option value="09:00" {{ old('jam', $pemesanan->jam) == '09:00' ? 'selected' : '' }}>09:00</option>
-                        <option value="12:00" {{ old('jam', $pemesanan->jam) == '12:00' ? 'selected' : '' }}>12:00</option>
-                        <option value="15:00" {{ old('jam', $pemesanan->jam) == '15:00' ? 'selected' : '' }}>15:00</option>
-                        <option value="17:00" {{ old('jam', $pemesanan->jam) == '17:00' ? 'selected' : '' }}>17:00</option>
+                    <label for="paymentMethod">Metode Pembayaran</label>
+                    <select id="paymentMethod" name="metode_pembayaran" class="form-input" required>
+                        <option value="">Pilih metode pembayaran</option>
+                        <option value="transfer" {{ optional($pemesanan->first())->metode_pembayaran == 'transfer' ? 'selected' : '' }}>Transfer Bank</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <button type="button" id="checkAvailability" class="btn btn-primary">Cek Ketersediaan</button>
                 </div>
             </div>
         </div>
 
-        <!-- Vehicle and Seat Selection (Initially Hidden) -->
-        <div id="bookingOptions" >
-            <!-- Vehicle Selection -->
-            <div class="card">
-                <h2>Pilih Kendaraan</h2>
-                <div class="vehicle-options">
-                    <button type="button" name="bus" class="vehicle-btn active" data-vehicle="bus" data-seats="45">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="6" width="18" height="12" rx="2"/>
-                            <circle cx="7" cy="18" r="2"/>
-                            <circle cx="17" cy="18" r="2"/>
-                        </svg>
-                        <div class="vehicle-info">
-                            <span class="vehicle-name">Bus</span>
-                            <span class="vehicle-seats">45 Kursi</span>
-                        </div>
-                    </button>
-                    <button type="button" name="minibus" class="vehicle-btn" data-vehicle="minibus" data-seats="15">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="6" width="18" height="12" rx="2"/>
-                            <circle cx="7" cy="18" r="2"/>
-                            <circle cx="17" cy="18" r="2"/>
-                        </svg>
-                        <div class="vehicle-info">
-                            <span class="vehicle-name">Mini Bus</span>
-                            <span class="vehicle-seats">15 Kursi</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Seat Selection -->
-            <div class="card">
-                <h2>Pilih Kursi</h2>
-                <div class="seats-legend">
-                    <div class="legend-item">
-                        <div class="seat-example available"></div>
-                        <span>Tersedia</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="seat-example selected"></div>
-                        <span>Dipilih</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="seat-example booked"></div>
-                        <span>Sudah Dipesan</span>
-                    </div>
-                </div>
-                <div class="seats-container">
-                    <div id="seatsGrid" class="bus-seats"></div>
-                </div>
-            </div>
-
-            <!-- Payment Method -->
-            <div class="card">
-                <h2>Metode Pembayaran</h2>
+        <div class="card">
+            <h2>Jadwal Keberangkatan</h2>
+            <div class="form-container">
                 <div class="form-group">
-                    <select id="paymentMethod" name="metode_pembayaran" class="form-input" required>
-                        <option value="">Pilih metode pembayaran</option>
-                        <option value="transfer">Transfer Bank</option>
+                    <label for="tanggal">Tanggal Keberangkatan</label>
+                    <input type="date" id="date" name="tanggal" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="paymentMethod">Jam Keberangkatan</label>
+                    <select id="time" name="jam" class="form-input" required>
+                        <option value="">Pilih jam keberangkatan</option>
+                        <option value="09:00">09:00</option>
+                        <option value="12:00" >12:00</option>
+                        <option value="15:00" >15:00</option>
+                        <option value="17:00" >17:00</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <select id="voucherSelect" name="voucher_id" class="form-input" onchange="updateVoucherDiscount()">
-                        <option value="">Pilih Voucher</option>
+                    {{-- Voucher --}}
+                    <select id="voucherSelect" name="voucher_id" onchange="updateVoucherDiscount()">
+                        <label for="paymentMethod">Voucher</label>
+                        <option value="">-- Pilih Voucher --</option>
                         @foreach ($userVouchers as $userVoucher)
                             @if (!$userVoucher->is_used)
                                 <option value="{{ $userVoucher->voucher->id }}">
@@ -150,8 +132,10 @@
                     <input type="hidden" id="voucherDiscount" name="voucher_discount" value="0">
                 </div>
             </div>
+        </div>
 
-            <!-- Booking Summary -->
+        
+
             <div class="summary-container">
                 <div class="summary-row">
                     <span class="summary-label">Nama Lengkap</span>
@@ -185,116 +169,82 @@
                     <span class="summary-label">Total Pembayaran</span>
                     <span class="summary-value" id="summaryTotal">IDR 0</span>
                 </div>
-                
-                <button id="confirmButton" type="submit" class="book-now-btn">Booking Sekarang</button>
-                <a href="{{ route('konfirmasi.pembayaran', ['id' => $pemesanan->id]) }}" id="backBtn" type="submit" class="back-now-btn">Kembali</a>
+                <button id="confirmButton" type="submit" class="book-now-btn" onclick="submitBooking()">Booking Sekarang</button>
+                </div>
             </div>
-        </div>
+
     </form>
 </div>
 
 <script>
 
-const selectedSeats = new Set();
-let currentVehicleType = 'bus';
-let bookedSeatsData = [];
+    // Initialize variables and state
+    const selectedSeats = new Set();
+    let currentVehicleType = 'bus';
 
-document.addEventListener('DOMContentLoaded', () => {
-    const checkAvailabilityBtn = document.getElementById('checkAvailability');
-    const bookingOptionsDiv = document.getElementById('bookingOptions');
-    
-    checkAvailabilityBtn.addEventListener('click', async () => {
-        const date = document.getElementById('date').value;
-        const time = document.getElementById('time').value;
-        const destinasiId = document.querySelector('input[name="destinasi_id"]').value;
+    // Render seats when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        renderSeats('bus');
+        attachFormListeners();
+    });
 
-        if (!date || !time) {
-            alert('Pilih tanggal dan jam keberangkatan terlebih dahulu');
-            return;
-        }
+    function attachFormListeners() {
+        const form = document.querySelector('form');
+        const inputs = {
+            fullName: document.getElementById('fullName'),
+            phoneNumber: document.getElementById('phoneNumber'),
+            paymentMethod: document.getElementById('paymentMethod'),
+            date: document.getElementById('date'),
+            time: document.getElementById('time')
+        };
 
-        try {
-            const response = await fetch(`/api/check-availability/${destinasiId}/${date}/${time}`);
-            const data = await response.json();
-            
-            if (response.ok) {
-                bookedSeatsData = data.bookedSeats;
-                bookingOptionsDiv.style.display = 'block';
-                renderSeats('bus'); // Initial render for bus
-                scrollTo(bookingOptionsDiv);
-            } else {
-                alert(data.message || 'Terjadi kesalahan saat memeriksa ketersediaan');
+        Object.values(inputs).forEach(input => {
+            if (input) {
+                input.addEventListener('input', updatePersonalInfo);
+                input.addEventListener('change', updatePersonalInfo);
             }
-        } catch (error) {
-            console.error('Error checking availability:', error);
-            alert('Terjadi kesalahan saat memeriksa ketersediaan');
+        });
+
+        if (form) {
+            form.addEventListener('submit', handleSubmit);
         }
-    });
-
-    // Disable past dates in date picker
-    const dateInput = document.getElementById('date');
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
-
-    // Add event listeners for form updates
-    attachFormListeners();
-});
-
-function attachFormListeners() {
-    const form = document.querySelector('form');
-    const inputs = {
-        fullName: document.getElementById('fullName'),
-        phoneNumber: document.getElementById('phoneNumber'),
-        paymentMethod: document.getElementById('paymentMethod'),
-        date: document.getElementById('date'),
-        time: document.getElementById('time')
-    };
-
-    Object.values(inputs).forEach(input => {
-        if (input) {
-            input.addEventListener('input', updatePersonalInfo);
-            input.addEventListener('change', updatePersonalInfo);
-        }
-    });
-
-    if (form) {
-        form.addEventListener('submit', handleSubmit);
     }
-}
 
-async function renderSeats(vehicleType) {
-    const seatsGrid = document.getElementById('seatsGrid');
-    if (!seatsGrid) return;
-    
-    seatsGrid.innerHTML = '';
-    selectedSeats.clear();
-    
-    const seatCount = vehicleType === 'bus' ? 45 : 15;
-    seatsGrid.className = vehicleType === 'bus' ? 'bus-seats' : 'minibus-seats';
+    async function renderSeats(vehicleType) {
+        const seatsGrid = document.getElementById('seatsGrid');
+        if (!seatsGrid) return;
+        
+        seatsGrid.innerHTML = '';
+        selectedSeats.clear();
 
-    // Create seat layout
-    for (let i = 1; i <= seatCount; i++) {
-        const seatNumber = vehicleType === 'bus' ? `B${i}` : `MB${i}`;
-        const isBooked = bookedSeatsData.includes(seatNumber);
+        const bookedSeats = await getBookedSeats();
+        const seatCount = vehicleType === 'bus' ? 45 : 15;
         
-        const seatBtn = document.createElement('button');
-        seatBtn.type = 'button';
-        seatBtn.className = `seat-btn ${isBooked ? 'booked' : ''}`;
-        seatBtn.disabled = isBooked;
-        
-        seatBtn.innerHTML = `
-            ${createSeatIcon(false, isBooked)}
-            <span class="seat-info">Kursi ${seatNumber}</span>
-        `;
-        
-        if (!isBooked) {
-            seatBtn.addEventListener('click', () => toggleSeat(seatNumber, seatBtn));
+        // Update the grid class based on vehicle type
+        seatsGrid.className = vehicleType === 'bus' ? 'bus-seats' : 'minibus-seats';
+
+        for (let i = 1; i <= seatCount; i++) {
+            const seatNumber = vehicleType === 'bus' ? `B${i}` : `MB${i}`;
+            const isBooked = bookedSeats.includes(seatNumber);
+            
+            const seatBtn = document.createElement('button');
+            seatBtn.type = 'button'; // Add this to prevent form submission
+            seatBtn.className = `seat-btn ${isBooked ? 'booked' : ''}`;
+            seatBtn.disabled = isBooked;
+            
+            seatBtn.innerHTML = `
+                ${createSeatIcon(false, isBooked)}
+                <span class="seat-info">Kursi ${seatNumber}</span>
+            `;
+            
+            if (!isBooked) {
+                seatBtn.addEventListener('click', () => toggleSeat(seatNumber, seatBtn));
+            }
+            
+            seatsGrid.appendChild(seatBtn);
         }
-        
-        seatsGrid.appendChild(seatBtn);
+        updateSummary();
     }
-    updateSummary();
-}
 
     async function getBookedSeats() {
         try {

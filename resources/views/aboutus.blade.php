@@ -1,176 +1,216 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Java Wonderland</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-
-    <style>
-        /* General Styles */
-    body {
-        font-family: 'Roboto', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f9f9f9;
-        color: #333;
-        line-height: 1.6;
-    }
-
-    h1, h2, h3, h4 {
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .containerImg {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
-
-
-
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 15px;
-    }
-
-    img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10px;
-    }
-
-    /* Hero Section */
-    .hero-section {
-        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                    url('https://images.unsplash.com/photo-1583417319070-4a69db38a482?ixlib=rb-4.0.3') center/cover no-repeat;
-        color: white;
-        text-align: center;
-        padding: 100px 15px;
-    }
-
-    .hero-section h1 {
-        font-size: 3rem;
-        font-weight: 700;
-    }
-
-    .hero-section p {
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-    }
-
-    .hero-section a {
-        text-decoration: none;
-        color: white;
-        border: 2px solid white;
-        padding: 10px 20px;
-        transition: all 0.3s ease;
-    }
-
-    .hero-section a:hover {
-        background-color: white;
-        color: black;
-    }
-
-    /* About Section */
-    #about {
-        background-color: #fff;
-        padding: 50px 0;
-    }
-
-    #about img {
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    #about h2 {
-        font-size: 2rem;
-        color: #007bff;
-        margin-bottom: 20px;
-    }
-
-    /* Mission Section */
-    .mission-section {
-        background-color: #f1f1f1;
-        padding: 50px 0;
-    }
-
-    .mission-section .card {
-        transition: transform 0.3s ease;
-    }
-
-    .mission-section .card:hover {
-        transform: translateY(-10px);
-    }
-
-    .mission-section i {
-        color: #007bff;
-    }
-
-    .team-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        padding: 40px 0;
-    }
-
-    .team-member {
-        text-align: center;
-        background: white;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
-
-    .team-member:hover {
-        transform: translateY(-5px);
-    }
-
-    .team-member img {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 15px;
-    }
-
-    .team-member h3 {
-        color: #2563eb;
-        margin: 10px 0;
-    }
-
-    .team-member p {
-        color: #666;
-        font-size: 0.9rem;
-    }
-
-    @media (max-width: 768px) {
-        .team-grid {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        
-        .team-member img {
-            width: 150px;
-            height: 150px;
-        }
-    }
-
-
-    </style>
+    <title>About Us | Java Wonderland</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="/app/css/aboutus.css">
 </head>
-
 <body>
+    <style>
+        /* navbar */
+.navbar {
+    background-color: transparent !important;
+    transition: box-shadow 0.3s, background-color 0.3s;
+}
+
+
+.navbar.expanded {
+    width: 100%;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 1rem 2rem;
+}
+
+
+.navbar:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); 
+}
+
+
+.navbar .nav-link,
+.navbar .navbar-brand {
+    color: rgb(11, 11, 11) !important;
+}
+
+
+.navbar .nav-link:hover {
+    color: #0040ff !important; 
+}
+
+.navbar .all-trips-menu {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0 0;
+}
+
+.navbar.expanded .all-trips-menu {
+    display: block;
+}
+
+.navbar .all-trips-menu li a {
+    color: #333;
+    display: block;
+    padding: 0.5rem 0;
+    text-decoration: none;
+}
+
+.navbar .all-trips-menu li a:hover {
+    color: #ff5722;
+}
+
+.dropdown-item.active-page {
+    opacity: 0.5;
+    pointer-events: none; 
+}
+
+.navbar.hidden {
+    transform: translateY(-100%); 
+    transition: transform 0.3s ease; 
+}
+/* Hero */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?ixlib=rb-4.0.3') center/cover;
+    height: 80vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.mission-section {
+    background-color: #f8f9fa;
+    padding: 100px 0;
+}
+ /* tim tampilan  */
+.team-member {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.team-member img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.team-member:hover img {
+    transform: scale(1.1);
+}
+/* status */
+.stats-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+                url('https://images.unsplash.com/photo-1542359649-31e03cd4d909?ixlib=rb-4.0.3') center/cover fixed;
+    color: white;
+    padding: 80px 0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 20px;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Timeline */
+
+.timeline {
+    position: relative;
+    padding: 50px 0;
+}
+
+.timeline-item {
+    padding: 20px;
+    margin-bottom: 30px;
+    border-left: 3px solid #007bff;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    border-radius: 50%;
+}
+
+/* tanggapan */
+.testimonial-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin: 20px;
+}
+
+.testimonial-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+/* Animated Background */
+.bg-animated {
+    background: linear-gradient(45deg, #1a237e, #0277bd, #00695c);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #ff5722;
+}
+
+.footer .bi {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.footer i {
+    font-size: 1.5rem;  
+    margin-right: 10px;  
+}
+    </style>
+
+
+    <!-- Navbar -->
+
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -234,70 +274,257 @@
         </div>
     </section>
 
-    <div class="team-grid">
-        <div class="team-member">
-            <img src="{{ asset('images/Yosua.jpg') }}" alt="Team Member 1">
-            <h3>Yosua</h3>
-            <p>CEO & Founder</p>
-        </div>
-        <div class="team-member">
-            <img src="{{ asset('images/Lina.jpg') }}" alt="Team Member 1">
-            <h3>Lina</h3>
-            <p>CEO & Founder</p>
-        </div>
-        <div class="team-member">
-            <img src="{{ asset('images/athal.jpg') }}" alt="Team Member 1">
-            <h3>Athal</h3>
-            <p>CEO & Founder</p>
-        </div>
-        <div class="team-member">
-            <img src="{{ asset('images/arvind.jpg') }}" alt="Team Member 1">
-            <h3>Arvind</h3>
-            <p>CEO & Founder</p>
-        </div>
-        <div class="team-member">
-            <img src="{{ asset('images/gevin.jpg') }}" alt="Team Member 1">
-            <h3>Gevin</h3>
-            <p>CEO & Founder</p>
-        </div>
-        
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- Team Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Tim Kami</h2>
     
+            <!-- Yosua berada di atas dan di tengah -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-4 text-center" data-aos="fade-up">
+                    <div class="team-member">
+                        <img src="{{ asset('images/Yosua.jpg') }}" alt="Team Member" class="img-fluid">
+                        <h4>Yosua Karyadi Putra</h4>
+                        <p>Founder & CEO</p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Anggota tim lainnya berada di bawah dan berjajar rapi -->
+            <div class="row text-center">
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-member">
+                        <img src="{{ asset('images/Lina.jpg') }}" alt="Team Member" class="img-fluid">
+                        <h4>Esterlin Imanuela Siahaya</h4>
+                        <p>Head of Operations</p>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-member">
+                        <img src="{{ asset('images/athal.jpg') }}" alt="Team Member" class="img-fluid">
+                        <h4>Athala Angwyn Renaldi</h4>
+                        <p>Lead Tour Guide</p>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="team-member">
+                        <img src="{{ asset('images/arvind.jpg') }}" alt="Team Member" class="img-fluid">
+                        <h4>Arvind Alaric</h4>
+                        <p>COO</p>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="team-member">
+                        <img src="{{ asset('images/gevin.jpg') }}" alt="Team Member" class="img-fluid">
+                        <h4>Gevin Pamoza</h4>
+                        <p>CFO</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" data-aos="fade-up">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="10000">9054</div>
+                        <div>Pelanggan Puas</div>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="500">6</div>
+                        <div>Destinasi</div>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="50">13</div>
+                        <div>Penghargaan</div>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="10">10</div>
+                        <div>Tahun Pengalaman</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Perjalanan Kami</h2>
+            <div class="timeline">
+                <div class="timeline-item" data-aos="fade-up">
+                    <h4>2013</h4>
+                    <p>Java Wonderland didirikan dengan visi menjadi platform travel terbaik di Pulau Jawa.</p>
+                </div>
+                <div class="timeline-item" data-aos="fade-up">
+                    <h4>2015</h4>
+                    <p>Memperluas jangkauan ke seluruh kota besar di Pulau Jawa.</p>
+                </div>
+                <div class="timeline-item" data-aos="fade-up">
+                    <h4>2018</h4>
+                    <p>Meluncurkan aplikasi mobile untuk memudahkan pemesanan perjalanan.</p>
+                </div>
+                <div class="timeline-item" data-aos="fade-up">
+                    <h4>2021</h4>
+                    <p>Meraih penghargaan sebagai "Best Travel Platform" di Indonesia Travel Awards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="py-5 bg-animated">
+        <div class="container">
+            <h2 class="text-center text-white mb-5" data-aos="fade-up">Apa Kata Mereka</h2>
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up">
+                    <div class="testimonial-card">
+                        <img src="/Componen/Fotografi.jpg" alt="Testimonial" class="testimonial-image">
+                        <p>"Pengalaman yang luar biasa! Tim Java Wonderland sangat profesional dan membantu."</p>
+                        <h5>Zelmi</h5>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <img src="/Componen/Api Biru.jpg" alt="Testimonial" class="testimonial-image">
+                        <p>"Saya sangat merekomendasikan Java Wonderland untuk perjalanan Anda di Pulau Jawa."</p>
+                        <h5>Afif</h5>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <img src="/Componen/BerenangHiu.jpg" alt="Testimonial" class="testimonial-image">
+                        <p>"Harga terjangkau dengan pelayanan kelas atas. Terima kasih Java Wonderland!"</p>
+                        <h5>Bian</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+<footer class="footer bg-dark text-light py-4">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5>Contact Us</h5>
+                <p>Email: info@javawonderland.com</p>
+                <p>Phone: +62 123 456 789</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>Follow Us</h5>
+                <a href="#" class="text-light me-3"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#" class="text-light"><i class="fab fa-twitter"></i> Twitter</a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>About Us</h5>
+                <p>Discover the beauty of Indonesia through curated tours in breathtaking destinations.</p>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p>&copy; 2024 | Java Wonderland. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-    // Initialize AOS
-    AOS.init({
-        duration: 1200,
-        easing: "ease-in-out",
-        once: true,
-    });
-
-    // Smooth Scrolling for Learn More Button
-    const scrollToAbout = document.querySelector("a[href='#about']");
-    scrollToAbout.addEventListener("click", function (e) {
-        e.preventDefault();
-        const aboutSection = document.querySelector("#about");
-        aboutSection.scrollIntoView({ behavior: "smooth" });
-    });
-
-    // Hover Animations for Team Images
-    const teamImages = document.querySelectorAll(".team-member img");
-    teamImages.forEach((img) => {
-        img.addEventListener("mouseenter", () => {
-            img.style.transform = "scale(1.1)";
-            img.style.transition = "transform 0.3s ease";
+        
+        // Inisialisasi AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1000,
+            once: true
         });
 
-        img.addEventListener("mouseleave", () => {
-            img.style.transform = "scale(1)";
-        });
-    });
-});
+        // Animasi Counter untuk Stats Section
+        const counters = document.querySelectorAll('.stat-number');
+        
+        function animateCounter(counter) {
+            const target = parseInt(counter.getAttribute('data-target'));
+            let count = 0;
+            const speed = target / 200; // Kecepatan animasi
 
+            function updateCount() {
+                if (count < target) {
+                    count += speed;
+                    counter.innerText = Math.ceil(count);
+                    requestAnimationFrame(updateCount);
+                } else {
+                    counter.innerText = target;
+                }
+            }
+
+            updateCount();
+        }
+
+        // Intersection Observer untuk memulai animasi counter ketika tampil di viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => animateCounter(counter));
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelector('.stats-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth Scroll untuk navigasi
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-dark', 'shadow');
+            } else {
+                navbar.classList.remove('bg-dark', 'shadow');
+            }
+        });
+
+        // Tambahkan efek hover pada team member
+        document.querySelectorAll('.team-member').forEach(member => {
+            member.addEventListener('mouseover', function() {
+                this.querySelector('img').style.transform = 'scale(1.1)';
+            });
+            member.addEventListener('mouseout', function() {
+                this.querySelector('img').style.transform = 'scale(1)';
+            });
+        });
+
+        // Tambahkan efek parallax pada stats section
+        window.addEventListener('scroll', function() {
+            const statsSection = document.querySelector('.stats-section');
+            const scrolled = window.pageYOffset;
+            statsSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+        });
     </script>
 </body>
-
 </html>

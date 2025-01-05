@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Review Pesanan</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         * {
     margin: 0;
@@ -315,7 +316,7 @@ body {
             <div class="booking-info">
                 <div class="info-item">
                     <span class="info-label">Tujuan Wisata</span>
-                    <span class="info-value">{{ $order->destinasi->tujuan }}</span>
+                    <span class="info-value">{{ $order->destinasi?->tujuan ?? 'Destinasi tidak ditemukan' }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Tanggal Perjalanan</span>
@@ -330,7 +331,8 @@ body {
                     $reviewed = $order->review; // Mengambil review yang terkait dengan pesanan
                 @endphp
     
-                <form method="POST" action="{{ route('review.store') }}" class="review-form" @if($reviewed) disabled @endif>
+                @if (!$reviewed)
+                <form method="POST" class="review-form" data-order-id="{{ $order->id }}">
                     @csrf
                     <input type="hidden" name="pemesanan_id" value="{{ $order->id }}">
                     
@@ -343,15 +345,14 @@ body {
                         <input type="hidden" name="rating" class="rating-input" required>
                     </div>
     
-                    <textarea name="review_text" placeholder="Bagikan pengalaman perjalanan Anda..." @if($reviewed) disabled @endif></textarea>
+                    <textarea name="review_text" placeholder="Bagikan pengalaman perjalanan Anda..."></textarea>
     
-                    <button type="submit" class="btn btn-submit" @if($reviewed) disabled @endif>
+                    <button type="button" class="btn btn-submit">
                         <i class="fas fa-paper-plane"></i>
                         Kirim Review
                     </button>
                 </form>
-    
-                @if($reviewed)
+                @else
                     <p>Anda sudah memberikan review untuk pesanan ini, Terimakasih!!</p>
                 @endif
             </div>
@@ -360,53 +361,112 @@ body {
     
         <div class="review-history">
             <h2>Riwayat Review</h2>
-            @foreach ($userReviews as $review)
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="reviewer-info">
-                        <div class="reviewer-name">{{ $review->user->name }}</div>
-                        <div class="review-date">{{ $review->created_at->format('d M Y') }}</div>
-                        
+            <div id="review-list">
+                @foreach ($userReviews as $review)
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-name">{{ $review->user->name }}</div>
+                            <div class="review-date">{{ $review->created_at->format('d M Y') }}</div>
+                        </div>
+                        <div class="reviewer-info">
+                            <div class="reviewer-name">{{ $review->pemesanan?->destinasi?->tujuan ?? 'Destinasi tidak ditemukan' }}</div>
+                        </div>
                     </div>
-                    <div class="reviewer-info">
-                        
-                        <div class="reviewer-name">{{ $order->destinasi->tujuan }}</div>
-                        
+                    <div class="review-rating">
+                        @for ($i = 1; $i <= $review->rating; $i++)
+                        <i class="fas fa-star"></i>
+                        @endfor
                     </div>
+                    <p class="review-text">{{ $review->review_text }}</p>
                 </div>
-                <div class="review-rating">
-                    @for ($i = 1; $i <= $review->rating; $i++)
-                    <i class="fas fa-star"></i>
-                    @endfor
-                </div>
-                <p class="review-text">{{ $review->review_text }}</p>
+                @endforeach
             </div>
-            @endforeach
         </div>
     </div>
 
 <script>
-        // Star rating functionality
-        document.querySelectorAll('.stars').forEach(starContainer => {
-            const stars = starContainer.querySelectorAll('.fa-star');
-            const ratingInput = starContainer.nextElementSibling;
+   // CSRF token for AJAX requests
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            stars.forEach(star => {
-                star.addEventListener('mouseover', () => {
-                    stars.forEach(s => s.classList.toggle('active', s.dataset.rating <= star.dataset.rating));
-                });
+// Handle star rating
+document.querySelectorAll('.stars').forEach(starContainer => {
+    const stars = starContainer.querySelectorAll('.fa-star');
+    const ratingInput = starContainer.nextElementSibling;
 
-                star.addEventListener('mouseout', () => {
-                    stars.forEach(s => s.classList.remove('active'));
-                    stars.forEach(s => s.classList.toggle('selected', s.dataset.rating <= ratingInput.value));
-                });
+    stars.forEach(star => {
+        star.addEventListener('mouseover', () => {
+            stars.forEach(s => s.classList.toggle('active', s.dataset.rating <= star.dataset.rating));
+        });
 
-                star.addEventListener('click', () => {
-                    ratingInput.value = star.dataset.rating;
-                    stars.forEach(s => s.classList.toggle('selected', s.dataset.rating <= star.dataset.rating));
-                });
-            });
+        star.addEventListener('mouseout', () => {
+            stars.forEach(s => s.classList.remove('active'));
+            stars.forEach(s => s.classList.toggle('selected', s.dataset.rating <= ratingInput.value));
+        });
+
+        star.addEventListener('click', () => {
+            ratingInput.value = star.dataset.rating;
+            stars.forEach(s => s.classList.toggle('selected', s.dataset.rating <= star.dataset.rating));
+        });
+    });
 });
+
+// Handle AJAX form submission and real-time review display
+document.querySelectorAll('.btn-submit').forEach(button => {
+    button.addEventListener('click', async () => {
+        const form = button.closest('form');
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(`{{ route('review.store') }}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                },
+                body: formData
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                const reviewerName = "{{ auth()->user()->name }}";
+                const currentDate = new Date().toLocaleDateString('id-ID');
+
+                // Menambahkan review baru ke dalam daftar review
+                const reviewList = document.getElementById('review-list');
+                const newReview = `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">${reviewerName}</div>
+                                <div class="review-date">${currentDate}</div>
+                            </div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">${result.destinasi}</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            ${'⭐'.repeat(result.rating)}
+                        </div>
+                        <p class="review-text">${result.review_text}</p>
+                    </div>`;
+
+                // Masukkan review baru di bagian atas daftar
+                reviewList.insertAdjacentHTML('afterbegin', newReview);
+
+                // Disable form dan tampilkan pesan terima kasih
+                form.innerHTML = '<p>Anda sudah memberikan review untuk pesanan ini, Terimakasih!!</p>';
+            } else {
+                alert(result.message || 'Gagal mengirim review');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Terjadi kesalahan saat mengirim review.');
+        }
+    });
+});
+
+
 </script>
 </body>
 </html>

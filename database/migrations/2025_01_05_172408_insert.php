@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function run()
     {
-        DB::table('destinasiwisata')->insert([
+        DB::table('destinasiWisata')->insert([
             [
                 'jarak' => '150 km',
                 'tujuan' => 'Bandung - Pangandaran',

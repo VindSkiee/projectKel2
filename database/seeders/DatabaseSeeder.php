@@ -10,8 +10,11 @@ class DestinasiWisataSeeder extends Seeder
      *
      * @return void
      */
+    
+
     public function run()
     {
+        $this->call(DestinasiWisataSeeder::class);
         DB::table('destinasiwisata')->insert([
             [
                 'jarak' => '150 km',

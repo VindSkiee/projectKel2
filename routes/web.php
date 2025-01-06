@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\VoucherController;
 
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -12,6 +12,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/edit-destinasi', [AdminController::class, 'edit'])->name('admin.edit.destinasi');
     Route::post('/admin/update-destinasi', [AdminController::class, 'update'])->name('admin.update.destinasi');
 });
+
+Route::post('/voucher/storeAdmin', [VoucherController::class, 'store'])->name('voucherAdmin.store');
 
 // HOME
 Route::get('/', function () {
@@ -70,16 +72,12 @@ Route::get('/home', function () {
     return view('home', ['user_name' => $userName]);
 })->middleware('auth')->name('home');
 
+
 // PROFILE
-
-
-
-
 
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile')->middleware('auth');
 
 use App\Http\Controllers\UserController;
-
 
 Route::post('/profile/update-name', [UserController::class, 'updateName'])->name('profile.update.name')->middleware('auth');
 Route::post('/profile/update-password', [UserController::class, 'updatePassword'])->name('profile.update.password')->middleware('auth');
@@ -131,7 +129,7 @@ Route::delete('/daftar-pesanan/trash/{id}', [PemesananController::class, 'trash'
 
 // VOUCHER
 
-use App\Http\Controllers\VoucherController;
+
 
 Route::get('/voucher-admin', [VoucherController::class, 'voucher'])->name('voucher.admin');
 
@@ -140,7 +138,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/voucher-user', [VoucherController::class, 'voucherUser'])->name('voucher.user');
 });
 
-Route::post('/voucher/storeAdmin', [VoucherController::class, 'store'])->name('voucherAdmin.store');
+
 
 Route::post('/voucher/storeUser', [VoucherController::class, 'storeUser'])->name('voucherUser.store');
 

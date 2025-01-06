@@ -260,7 +260,7 @@ class PemesananController extends Controller
         return redirect()->route('pemesanan.daftar.home') 
             ->with('success', 'Pesanan berhasil dihapus!');
     }
-
+    // gevin
     public function success($id)
     {
         $pemesanan = Pemesanan::findOrFail($id);
@@ -302,7 +302,7 @@ class PemesananController extends Controller
         $destinasi = Destinasi::findOrFail($pemesanan->destinasi_id);
         return view('konfirmasiPembayaran', compact('pemesanan', 'destinasi', 'voucher', 'userVouchers'));
     }
-
+    //gevin
     public function home($id)
     {
         $pemesanan = Pemesanan::findOrFail($id);

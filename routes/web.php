@@ -70,16 +70,12 @@ Route::get('/home', function () {
     return view('home', ['user_name' => $userName]);
 })->middleware('auth')->name('home');
 
+
 // PROFILE
-
-
-
-
 
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile')->middleware('auth');
 
 use App\Http\Controllers\UserController;
-
 
 Route::post('/profile/update-name', [UserController::class, 'updateName'])->name('profile.update.name')->middleware('auth');
 Route::post('/profile/update-password', [UserController::class, 'updatePassword'])->name('profile.update.password')->middleware('auth');

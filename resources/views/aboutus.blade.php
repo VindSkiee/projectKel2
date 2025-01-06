@@ -206,6 +206,56 @@
     font-size: 1.5rem;  
     margin-right: 10px;  
 }
+
+.action {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.action:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.action a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.action a:hover {
+    transform: translateX(-5px);
+}
+
+.action i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+@media (max-width: 768px) {
+    .action {
+        top: 10px;
+        left: 10px;
+        padding: 8px 15px;
+    }
+    
+    .action a {
+        font-size: 14px;
+    }
+    
+    .action i {
+        font-size: 16px;
+    }
+}
     </style>
 
 
@@ -213,13 +263,21 @@
 
 
     <!-- Hero Section -->
+    
     <section class="hero-section">
+        <div class="action">
+            <a href="{{ url('/') }}">
+                <i class="fas fa-arrow-left"></i>
+                Kembali ke beranda
+            </a>
+        </div>
         <div class="container" data-aos="fade-up">
             <h1 class="display-3 mb-4">Discover Java With Us</h1>
             <p class="lead mb-4">Mengeksplorasi keindahan Pulau Jawa bersama tim profesional kami</p>
             <a href="#about" class="btn btn-outline-light btn-lg">Learn More</a>
         </div>
     </section>
+    
 
     <!-- About Section -->
     <section id="about" class="py-5">

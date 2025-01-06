@@ -99,6 +99,8 @@ Route::get('/pemesanan/{id}', [PemesananController::class, 'showPemesanan'])->na
 
 Route::get('/api/booked-seats/{jenis_kendaraan}/{destinasi_id}', [PemesananController::class, 'getBookedSeats'])->name('pemesanan.booked');
 
+
+// gevin
 Route::get('/success/{id}', [PemesananController::class, 'success'])->name('pembayaran.success');
 
 Route::get('/konfirmasiPembayaran/{id}', [PemesananController::class, 'konfirmasiPembayaran'])->name('konfirmasi.pembayaran');

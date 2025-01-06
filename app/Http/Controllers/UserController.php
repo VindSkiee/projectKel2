@@ -73,7 +73,7 @@ class UserController extends Controller
         }
 
         // Ubah kata sandi
-        $user->password = Hash::make($request->new_password);
+        $user->password = Hash::make(value: $request->new_password);
         $user->save();
 
         return back()->with('success', 'Kata sandi berhasil diperbarui.');

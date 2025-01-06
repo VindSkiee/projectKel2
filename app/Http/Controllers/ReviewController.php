@@ -22,7 +22,7 @@ class ReviewController extends Controller
 
         // Ambil semua review milik user yang login
         $userReviews = Review::with('pemesanan.destinasi') // Pastikan relasi ini ada di model Review
-            ->where('user_id', Auth::id())
+            ->where('user_id', Auth::id())  
             ->latest()
             ->get();
 
@@ -67,7 +67,7 @@ class ReviewController extends Controller
         'review' => $review,
         'destinasi' => $review->pemesanan->destinasi->tujuan ?? 'Destinasi tidak ditemukan',
         'rating' => $review->rating,
-        'review_text' => $review->review_text
+        'review_text' => $review->review_text // SEMANGAT WEBPRO
     ]);
 }
 

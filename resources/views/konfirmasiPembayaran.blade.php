@@ -327,7 +327,7 @@
                         <i class="fas fa-arrow-left"></i>
                         Kembali ke Home
                     </a>
-                    
+                    <!-- \\gevin -->
                     <a class="btn btn-pay" href="{{ route('pembayaran.success', ['id' => $pemesanan->id]) }}">
                         <i class="fas fa-wallet"></i>
                         Bayar Sekarang

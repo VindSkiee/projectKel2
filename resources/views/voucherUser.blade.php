@@ -282,10 +282,42 @@
             .voucher-input-section {
                 padding: 25px;
             }
+
+            .alert {
+                padding: 1rem;
+                border-radius: 12px;
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .alert-success {
+                background: #dcfce7;
+                color: #166534;
+            }
+
+            .alert-error {
+                background: #fee2e2;
+                color: #dc2626;
+            }
         }
     </style>
 </head>
 <body>
+    @if(session('success'))
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ session('error') }}
+            </div>
+        @endif
     <div class="container">
         <div class="header">
             <h1>Voucher Diskon</h1>

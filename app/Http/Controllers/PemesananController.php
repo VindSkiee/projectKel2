@@ -239,6 +239,7 @@ class PemesananController extends Controller
         }
     }
 
+    //untuk function cancel
     public function cancel($id)
     {
         $pemesanan = Pemesanan::findOrFail($id);
@@ -257,7 +258,7 @@ class PemesananController extends Controller
             $pemesanan->delete();
         }
         $pemesanan->delete();
-        
+
         return redirect()->route('pemesanan.daftar.home') 
             ->with('success', 'Pesanan berhasil dihapus!');
     }

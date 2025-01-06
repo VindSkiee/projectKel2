@@ -39,16 +39,16 @@ class AdminController extends Controller
             'destinasi_id' => 'required|exists:destinasiwisata,id',
             'harga' => 'required|string', // Pastikan harga adalah angka yang valid
         ]);
-    
+
         // Temukan destinasi berdasarkan ID yang dikirimkan
         $destinasi = Destinasi::find($request->destinasi_id);
-    
+
         // Update harga destinasi
         $destinasi->harga = $request->harga;
-    
+
         // Simpan perubahan ke database
         $destinasi->save();
-    
+
         // Kembalikan dengan pesan sukses
         return back()->with('success', 'Harga destinasi berhasil diperbarui!');
     }

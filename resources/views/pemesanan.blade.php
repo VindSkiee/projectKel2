@@ -4,7 +4,82 @@
 
 @section('content')
 
+<style>
+
+        .action {
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .action a {
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #1d4ed8;
+            display: flex;
+            align-items: center;
+            
+            border-radius: 8px;
+            transition: all 0.3s ease;
+           
+        }
+
+        .action a:hover {
+           
+            transform: translateX(-2px);
+        }
+
+        .action i {
+            margin-right: 10px;
+        }
+
+    .alert {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+</style>
+
 <link rel="stylesheet" href="{{ asset('css/pemesanan.css') }}">
+
+    <div class="action">
+        <a href="{{ url('/admin/dashboard') }}">
+            <i class="fas fa-arrow-left"></i>
+            Kembali ke beranda
+        </a>
+    </div>
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ session('error') }}
+            </div>
+        @endif
+
 
 <div class="container-pemesanan">
     <!-- Destination -->
@@ -75,7 +150,7 @@
 
         <!-- Vehicle and Seat Selection (Initially Hidden) -->
         <div id="bookingOptions" style="display: none;">
-            <!-- Vehicle Selection -->
+            <!-- Pemilihan kendaraan -->
             <div class="card">
                 <h2>Pilih Kendaraan</h2>
                 <div class="vehicle-options">
@@ -104,7 +179,7 @@
                 </div>
             </div>
 
-            <!-- Seat Selection -->
+            <!-- Pemilihan kursi -->
             <div class="card">
                 <h2>Pilih Kursi</h2>
                 <div class="seats-legend">

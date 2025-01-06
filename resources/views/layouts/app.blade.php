@@ -27,28 +27,7 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav align-items-center">
-          <li class="nav-item"><a class="nav-link active" href="{{ url('/') }}"><i class="fas fa-home me-1"></i>Home</a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAllTrips" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">All Trips</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownAllTrips">
-              <li><a class="dropdown-item active-page" href="#">Pantai Pangandaran</a></li>
-              <li><a class="dropdown-item" href="{{ url('/anyer') }}">Pantai Anyer</a></li>
-              <li><a class="dropdown-item" href="/Deskripsi/karimunjawa.html">Pantai Karimun Jawa</a></li>
-              <li><a class="dropdown-item" href="/Deskripsi/bromo.html">Gunung Bromo</a></li>
-              <li><a class="dropdown-item" href="/Deskripsi/sindoro.html">Gunung Sindoro</a></li>
-              <li><a class="dropdown-item" href="/Deskripsi/ijen.html">Gunung Ijen</a></li>
-            </ul>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="gallery.html"><i class="fas fa-images me-1"></i>Gallery</a></li>
-          <li class="nav-item"><a class="nav-link" href="aboutus.html"><i class="fas fa-info-circle me-1"></i>About Us</a></li>
-          <li class="nav-item"><a class="nav-link" href="reviews.html"><i class="fas fa-comments me-1"></i>Review</a></li>
-          <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-cart-shopping me-1"></i>Pesanan</a></li>
-         
-          <div class="notif">
-            <li class="nav-item">
-              <a class="nav-link" href="login.html" id="loginButton"><i class="fas fa-user me-1"></i>Login</a>
-              <span class="badge"></span>
-            </li>
+          
           </div>
           
 
